@@ -1,0 +1,90 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Login</title>
+    <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+
+<div class="flex justify-center align-center w-full h-full">
+<div class="form-deg brdr-r-10">
+<div>
+<img src="https://m.media-amazon.com/images/I/51I680MYexL.jpg">
+
+</div>
+
+<div class="form pos-rel">
+    <form>
+        <div class="text-3xl mg-b-30 font-value">Teacher Login</div>
+  <div>
+  <div class="form__group field">
+  <input type="input" class="form__field" placeholder="Username" name="username" id='username' required />
+  <label for="username" class="form__label">Username</label>
+</div>
+    <div class="username error"></div>
+
+
+    <div class="form__group field">
+  <input type="password" class="form__field" placeholder="Password" name="password" id='password' required />
+  <label for="password" class="form__label">Password</label>
+</div>
+<div class="password error"></div>
+<button class="btn indigo white-text w-full mg-t-20 text-1xl">Log in</button>
+</div>
+<div class="form-footer">
+ *By clicking Log in you are automatically accepting the cookie. Login will saved for 2 days.
+</div>
+</form>
+<div class="login-sug mg-t-20">
+    <a href="/recover">Forgotten password?</a>
+<div class="line-between mg-t-10">or</div>
+<a href="/teacher_signup"><button class="btn green white-text w-full mg-t-20 text-1xl">Create New Account</button></a>
+</div>
+</div>
+</div>
+</div>
+
+  <script>
+      const login = document.querySelector('form');
+      const usernameError = document.querySelector('.username.error')
+      const passwordError = document.querySelector('.password.error')
+
+      login.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          usernameError.textContent = '';
+          passwordError.textContent = '';
+          const username = login.username.value;
+          const password = login.password.value;
+          console.log(username)
+    try{
+          const res = await fetch('/teacher_login', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({username, password})
+          })
+
+          const result = await res.json();
+          console.log(result);
+          if(result.errors){
+              usernameError.textContent = result.errors.username;
+              passwordError.textContent = result.errors.password;
+          }
+
+          if(result.username){
+              location.assign('/teacher');
+          }
+    }
+    catch(err)
+    {
+        console.log(err);
+    }
+
+      })
+  </script>
+
+</body>
+</html>

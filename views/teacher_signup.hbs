@@ -1,0 +1,129 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="styles.css"/>
+    <title>Teacher Signup</title>
+</head>
+<body>
+{{>header}}
+<div class="flex justify-center align-center w-full h-full">
+<div class="form-deg brdr-r-10">
+<div>
+<img src="https://img.freepik.com/free-vector/sport-equipment-concept_1284-13034.jpg?w=826&t=st=1655009081~exp=1655009681~hmac=511e00d54e20157f6c6cb9f51cf97bf88e260ff244a435b9b86fc27501a09bde">
+
+</div>
+<div class="form pos-rel">
+    <form>
+        <div class="text-3xl font-value">Teacher Signup</div>
+  <div>
+
+ <div class="form__group field">
+  <input type="input" class="form__field" placeholder="Name" name="name" id='name' required />
+  <label for="name" class="form__label">Name</label>
+</div>
+  
+  <div class="form__group field">
+  <input type="input" class="form__field" placeholder="Email" name="email" id='email' required />
+  <label for="email" class="form__label">Email</label>
+</div>
+
+<div class="form__group field">
+  <input type="input" class="form__field" placeholder="Department" name="dept" id='dept' required />
+  <label for="dept" class="form__label">Department</label>
+</div>
+
+  <div>
+  <div class="form__group field">
+  <input type="input" class="form__field" placeholder="Username" name="username" id='username' required />
+  <label for="username" class="form__label">Username</label>
+</div>
+ <div class="username error"></div>
+
+
+    <div class="form__group field">
+  <input type="password" class="form__field" placeholder="Password" name="password" id='password' required />
+  <label for="password" class="form__label">Password</label>
+</div>
+<div class="password error"></div>
+
+</div>
+<button type="submit" class="btn green white-text text-1xl w-full mg-t-20">Signup</button>
+<div class="form-footer">
+ *By clicking Sign up you are automatically accepting the cookie.
+</div>
+</form>
+</div>
+<div class="login-sug mg-t-20">
+<div class="line-between mg-t-10 cyan-text">Already have an account?</div>
+<a href="/teacher_login"><button class="btn green white-text w-full mg-t-20 text-1xl">Login</button></a>
+</div>
+</div>
+</div>
+
+
+
+
+  <script>
+      const login = document.querySelector('form');
+      const usernameError = document.querySelector('.username.error')
+      const passwordError = document.querySelector('.password.error')
+
+      login.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          usernameError.textContent = '';
+          passwordError.textContent = '';
+          const username = login.username.value;
+          const password = login.password.value;
+          const email = login.email.value;
+          const name = login.name.value;
+          const dept = login.dept.value;
+          if(!isValidUsername(username)){
+            usernameError.textContent ='Username should contains only letters, numbers and underscores!';
+            return;
+          }
+          if(password.length < 6){
+            passwordError.textContent = 'Password should atleast 6 character long!';
+            return;
+          }
+    try{
+          const res = await fetch('/teacher_signup', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({name, email, dept, username, password})
+          })
+
+          const result = await res.json();
+          console.log(result);
+          if(result.errors){
+              usernameError.textContent = result.errors.username;
+              passwordError.textContent = result.errors.password;
+          }
+
+          if(result.teacher){
+              location.assign('/teacher');
+          }
+    }
+    catch(err)
+    {
+        console.log(err);
+    }
+
+      });
+
+
+
+const isValidUsername = (val) => {
+    const usernameRegex = /^[a-z0-9_.]+$/
+    return usernameRegex.test(val)
+  }
+
+
+
+  </script>
+    
+</body>
+</html>

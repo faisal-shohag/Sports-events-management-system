@@ -1,0 +1,92 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="styles.css"/>
+    <title>Account Recover</title>
+</head>
+<body>
+
+<div class="flex justify-center align-center w-full h-full">
+<div class="form-deg brdr-r-10">
+<div>
+<img src="images/recover.png">
+
+</div>
+
+<div class="form pos-rel" style="padding-right: 60px;">
+    <form>
+        <div class="text-3xl font-value">Account recover</div>
+  <div>
+  
+  <div class="form__group field">
+  <input type="input" class="form__field" placeholder="Email" name="email" id='email' required />
+  <label for="email" class="form__label">Enter you email...</label>
+
+</div>
+<button class="btn indigo white-text w-full mg-t-20 text-1xl">Get Code</button>
+</form>
+</div>
+
+<div class="login-sug mg-t-20">
+<div class="line-between mg-t-10 cyan-text">Already have an account?</div>
+<a href="/teacher_login"><button class="btn green white-text w-full mg-t-20 text-1xl">Login</button></a>
+</div>
+
+</div>
+</div>
+
+  <script>
+      const login = document.querySelector('form');
+      const usernameError = document.querySelector('.username.error')
+      const passwordError = document.querySelector('.password.error')
+
+      login.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          usernameError.textContent = '';
+          passwordError.textContent = '';
+          const username = login.username.value;
+          const password = login.password.value;
+          if(!isValidUsername(username)){
+            usernameError.textContent ='Username should contains only letters, numbers and underscores!';
+            return;
+          }
+          if(password.length < 6){
+            passwordError.textContent = 'Password should atleast 6 character long!';
+            return;
+          }
+    try{
+          const res = await fetch('/teacher_signup', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({username, password})
+          })
+
+          const result = await res.json();
+          console.log(result);
+          if(result.errors){
+              usernameError.textContent = result.errors.username;
+              passwordError.textContent = result.errors.password;
+          }
+
+          if(result.user){
+              location.assign('/teacher');
+          }
+    }
+    catch(err)
+    {
+        console.log(err);
+    }
+
+      });
+
+
+
+
+  </script>
+    
+</body>
+</html>

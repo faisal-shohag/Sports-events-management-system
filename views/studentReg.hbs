@@ -1,0 +1,123 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="styles.css"/>
+    <title>Join as student</title>
+</head>
+<body>
+{{>header}}
+<div class="flex justify-center align-center w-full h-full">
+<div class="form-deg brdr-r-10">
+<div>
+<img src="https://img.freepik.com/free-vector/sport-equipment-concept_1284-13034.jpg?w=826&t=st=1655009081~exp=1655009681~hmac=511e00d54e20157f6c6cb9f51cf97bf88e260ff244a435b9b86fc27501a09bde">
+
+</div>
+<div class="form pos-rel">
+    <form>
+        <div class="text-3xl font-value">Student Registration</div>
+  <div>
+
+ <div class="form__group field">
+  <input type="input" class="form__field" placeholder="Name" name="name" id='name' required />
+  <label for="name" class="form__label">Name</label>
+</div>
+
+ <div class="form__group field">
+  <input type="number" class="form__field" placeholder="id" name="id" id='id' required />
+  <label for="id" class="form__label">Student ID</label>
+</div>
+  
+  <div class="form__group field">
+  <input type="input" class="form__field" placeholder="Email" name="email" id='email' required />
+  <label for="email" class="form__label">Email</label>
+</div>
+<div class="email error"></div>
+
+<div class="form__group field">
+  <input type="input" class="form__field" placeholder="Department" name="dept" id='dept' required />
+  <label for="dept" class="form__label">Department</label>
+</div>
+
+ <div class="form-text mg-t-20">Select your gender</div>
+          <div class="input-group">
+              <input id="male" type="radio" name="gender" value="m" required/>
+              <label for="male">Male</label>
+              <input id="female" type="radio" name="gender" value="f" required/>
+              <label for="female">Female</label>
+            </div>
+        </div>
+
+<div class="form__group field">
+  <input type="number" class="form__field" placeholder="age" name="age" id='age' required />
+  <label for="age" class="form__label">Age</label>
+</div>
+
+
+<button type="submit" class="btn green white-text text-1xl w-full mg-t-20">Register</button>
+
+</form>
+</div>
+</div>
+</div>
+
+
+
+
+  <script>
+      const stdForm = document.querySelector('form');
+      const emailError = document.querySelector('.email.error')
+
+      stdForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          emailError.textContent = '';
+         const data = {
+          id: stdForm.id.value,
+          name: stdForm.name.value,
+          gender: stdForm.gender.value,
+          email: stdForm.email.value,
+          dept: stdForm.dept.value,
+          age: stdForm.age.value
+         }
+         console.log(data);
+    try{
+          const res = await fetch('/postStudent', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(data)
+          })
+
+          const result = await res.json();
+          console.log(result);
+          if(result.errors){
+              usernameError.textContent = result.errors.username;
+              passwordError.textContent = result.errors.password;
+          }
+
+          if(result.teacher){
+              location.assign('/registrationSeccesfull');
+          }
+    }
+    catch(err)
+    {
+        console.log(err);
+    }
+
+      });
+
+
+
+const isValidUsername = (val) => {
+    const usernameRegex = /^[a-z0-9_.]+$/
+    return usernameRegex.test(val)
+  }
+
+
+
+  </script>
+    
+</body>
+</html>
