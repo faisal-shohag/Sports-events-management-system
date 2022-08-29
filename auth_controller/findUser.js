@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt')
 const prisma = new PrismaClient();
 
 const findAdmin = async(username, password) => {
-      const admin =  await prisma.user.findUnique({where: {username}})
+      const admin =  await prisma.admin.findUnique({where: {username}})
        
       if(admin){
             const match = await bcrypt.compare(password, admin.password);

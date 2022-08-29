@@ -61,7 +61,7 @@ router.post('/postGame', async (req, res)=>{
 
 router.post('/postGameStudents', async (req, res)=>{
     const data = req.body;
-    console.log(data);
+    // console.log(data);
     try{
         const gameStd = await prisma.gameStudents.createMany({
             data: data
@@ -75,5 +75,77 @@ router.post('/postGameStudents', async (req, res)=>{
     }
 });
 
+
+router.post('/postAttendence', async (req, res) => {
+    const data = req.body;
+    try {
+        const attendence = await prisma.gameStudents.update({
+            where: {
+                gameId_studentId_round: {
+                    gameId: data.gameId,
+                    studentId: data.studentId,
+                    round: data.round
+                }
+            }, 
+            data: {
+                attendence: data.attendence
+            }
+        })
+        res.status(200).json({success: true});
+    }
+
+    catch(err){
+        console.log(err);
+        res.status(400).json({err: true});
+    }
+})
+
+
+router.post('/postRank', async (req, res) => {
+    const data = req.body;
+    try {
+        const attendence = await prisma.gameStudents.update({
+            where: {
+                gameId_studentId_round: {
+                    gameId: data.gameId,
+                    studentId: data.studentId,
+                    round: data.round
+                }
+            }, 
+            data: {
+                winRank: data.winRank
+            }
+        })
+        res.status(200).json({success: true});
+    }
+
+    catch(err){
+        console.log(err);
+        res.status(400).json({err: true});
+    }
+})
+
+router.post('/postResultState', async (req, res) => {
+    const data = req.body;
+    try {
+        const attendence = await prisma.results.update({
+            where: {
+                gameId_eventId: {
+                    gameId: parseInt(data.gameId),
+                    eventId: parseInt(data.eventId)
+                }
+            }, 
+            data: {
+                ResultState: data.ResultState
+            }
+        })
+        res.status(200).json({success: true});
+    }
+
+    catch(err){
+        console.log(err);
+        res.status(400).json({err: true});
+    }
+})
 
 module.exports = router;

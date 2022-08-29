@@ -1,6 +1,8 @@
+
 const router = new Navigo(null, true, '#!');
 var app = document.getElementById('app');
-
+const uid = (document.cookie).split('=')[1];
+console.log(uid)
 router.on({
     "/": function(){
         $('.menu-item').removeClass('menu-item-active');
@@ -95,11 +97,14 @@ router.on({
                body: JSON.stringify({...data})
             });
 
-            console.log(result);
-
+            
+            $('.modal-wrapper').hide();
+            Swal.fire('Added Event!', '', 'success')
           }
           catch(err){
             console.log(err);
+            $('.modal-wrapper').hide();
+            Swal.fire('Something went wrong!', '', 'success')
           }
 
         });
@@ -113,7 +118,6 @@ router.on({
         $('.modal-wrapper').hide();
      });
     },
-
     "/results": function(){
         $('.menu-item').removeClass('menu-item-active');
         $('.results').addClass('menu-item-active');
@@ -163,13 +167,34 @@ router.on({
           allStdTable.innerHTML += `
           <tr>
           <td>${data[i].id}</td>
-          <td>${data[i].name}</td>
+          <td><div class="flex align-center gap-10 bold"> <div class="circle-avatar-small"><img src="https://robohash.org/${data[i].name}?set=set3"/></div>${data[i].name}</div></td>
           <td>${data[i].dept}</td>
-          <td></td>
+          <td><div id="${data[i].id}" class="control_icon delete dlt_a_std"><i class="fi fi-sr-trash"></i></div></td>
           </tr>
           `
         }
+
+        $('.dlt_a_std').click(async function(){
+          const id = $(this)[0].id;
+            try {
+              const deleteFromAllStudents = fetch(`/deleteFromAllStudents/${id}`, {
+                method: 'DELETE',
+                headers: {
+                  'Content-Type': 'application/json'
+                }
+              })
+    
+              console.log(deleteFromAllStudents);
+              Swal.fire('Deleted a student!', '', 'success');
+            } catch (error) {
+              console.log(error);
+              Swal.fire('Something went wrong!', '', 'error');
+            }
+        })
+
     });
+
+
 
       $('#create_event').click(()=>{
          $('.modal-wrapper').show();
@@ -263,6 +288,7 @@ router.on({
          });
 
       });
+
  
       $('.modal-close').click(()=>{
          $('.modal-wrapper').hide();
@@ -329,7 +355,7 @@ router.on({
       <div id="event_created_at" class="event_time"></div> 
       </div> 
       
-      <button id="create_event" class="btn green white-text tooltip"><i class="fi fi-br-plus"></i> Create Game <span>create game event</span></button></div>
+      <button id="create_game" class="btn green white-text tooltip"><i class="fi fi-br-plus"></i> Create Game <span>create game event</span></button></div>
       <div class="hr w-full"></div>
 
       <div id="games" class="view flex align-center gap-10"></div>
@@ -353,18 +379,17 @@ router.on({
         const games = document.getElementById('games')
         for(i in data){
           games.innerHTML +=`
-          <a href="#!/game/${data[i].id}"><div class="event-card">
+          <a href="#!/game/${data[i].id}/${params.id}"><div class="event-card">
          <div class="event_title">${data[i].title}</div>
          <div class="event_time">28 May 2022 - 22 Jul 2022</div>
-         <div class="badge-blue mg-t-10">${data[i].teacher.name}</div>
+         <div class="badge-blue mg-t-10">${data[i].Teachers.name}</div>
          </div></a>
           `
         }
-        console.log(data);
       })
 
       // create game modal
-      $('#create_event').click(()=>{
+      $('#create_game').click(()=>{
          $('.modal-wrapper').show();
          $('#modal_body').html(`
          <div class="modal-body">
@@ -383,7 +408,7 @@ router.on({
              </div>
         
          
-         <button type="submit" id="eventSubmit" class="btn green white-text mg-t-30">Save</button>
+         <button type="submit" id="gameSubmit" class="btn green white-text mg-t-30">Save</button>
          
          </form>
          </div>
@@ -406,13 +431,13 @@ router.on({
          });
  
          const createGame = document.getElementById('createGame');
-         $('#eventSubmit').click(async(e)=>{
+         $('#gameSubmit').click(async(e)=>{
           e.preventDefault();
            let data ={
              title: createGame.title.value,
              eventId: parseInt(params.id),
              isResultGen: false,
-             teacherId: parseInt(createGame.teacher.value)
+             teacherUid: uid
            }
  
            try{
@@ -423,12 +448,13 @@ router.on({
                 },
                 body: JSON.stringify({...data})
              });
- 
              console.log(result);
- 
+             $('.modal-wrapper').hide();
+             Swal.fire('Game Added!', '', 'success')
            }
            catch(err){
              console.log(err);
+             Swal.fire('Something went wrong!', '', 'error')
            }
  
          });
@@ -446,7 +472,7 @@ router.on({
 
 
     },
-    "/game/:id": function(params){
+    "/game/:id/:eventId": function(params){
       $('.menu-item').removeClass('menu-item-active');
       $('.events').addClass('menu-item-active');
       app.innerHTML = `
@@ -456,136 +482,371 @@ router.on({
       <div id="game_badge" class="badge-green"></div>
       </div> 
       
-      <button id="create_event" class="btn green white-text tooltip"><i class="fi fi-br-plus"></i> Add Students <span>add students</span></button></div>
+      <button id="add_round" class="btn green white-text tooltip"><i class="fi fi-br-plus"></i> Add a round <span>add a round with students</span></button></div>
+     
       <div class="hr w-full"></div>
 
-     <div class="text-3xl mg-t-20">Students(<span id="c_g_std"></span>)</div>
+      <div id="round_tabs" class="flex tabs gap-10 w-full">
+      
+      </div>
 
-     <div class="table-wrapper">
-     <table class="fl-table">
-         <thead>
-         <tr>
-             <th>#ID</th>
-             <th>Name</th>
-             <th>Department</th>
-             <th>#Control</th>
-         </tr>
-         </thead>
-         <tbody id="gameStudents">
+      <div class="flex-end"> 
+     <button id="view_result" class="btn green white-text tooltip"><i <i class="fi fi-br-target"></i> View Result<span>View Result</span></button> 
+     </div>
 
-         </tbody>
-    </table>
+      <div id="round_tab_body" class="tab-body">
+     
+      </div>
+    
       `
 
-      //get Event
+      //get Game
       fetch('/getGame/'+params.id)
       .then(res=>res.json())
       .then(data=>{
          $('#event_title').text(data.title)
-         $('#game_badge').text(data.teacher.name)
+         $('#game_badge').text(data.Teachers.name)
     });
 
-    //get Game Students
-    fetch('/getGameStudents/'+params.id)
+  let roundCount = 0;
+    //get rounds, add student to the round
+    fetch('/getDistinctRound/'+params.id)
       .then(res=>res.json())
       .then(data=>{
-        const gameStdTable = document.getElementById('gameStudents');
-        $('#c_g_std').text(data.length)
-        for(i in data){
-          gameStdTable.innerHTML += `
-          <tr>
-          <td>${data[i].student.id}</td>
-          <td>${data[i].student.name}</td>
-          <td>${data[i].student.dept}</td>
-          <td></td>
-          </tr>
+        roundCount = data.length;
+        const round_tabs = document.getElementById('round_tabs');
+         for(i in data){
+          round_tabs.innerHTML += `
+          <div id="${data[i].round}" class="tab-item">Round ${data[i].round + 1}</div>
           `
+        
+         
+          $('.tab-item').click(function(){
+            $('.tab-item').removeClass('tab-active');
+            const round = $(this)[0].id;
+           
+           $($(this)).addClass('tab-active');
+            
+            fetch('/getGameStudents/'+params.id+'/'+round)
+            .then(res=>res.json())
+            .then(data=>{
+              const round_tab_body = document.getElementById('round_tab_body');
+              round_tab_body.innerHTML = `
+              <div class="text-3xl mg-t-20">Students(<span id="c_g_std"></span>)</div>
+              <div class="flex-end">
+              <button id="add_round_students" class="mg-b-10 btn green white-text tooltip round-${round}"><i class="fi fi-br-plus"></i> Add student  <span>Add student to this round</span></button></div>
+              </div>
+              <div class="table-wrapper">
+              <table class="fl-table">
+                  <thead>
+                  <tr>
+                      <th>#ID</th>
+                      <th>Name</th>
+                      <th>Department</th>
+                      <th>#Control</th>
+                  </tr>
+                  </thead>
+                  <tbody id="gameStudents">
+         
+                  </tbody>
+             </table>
+              `
+              $('#c_g_std').text(data.length)
+              const gameStdTable = document.getElementById('gameStudents');
+              for(i in data){
+                gameStdTable.innerHTML += `
+                <tr>
+                <td>${data[i].student.id}</td>
+                <td><div class="flex align-center gap-10 bold"> <div class="circle-avatar-small"><img src="https://robohash.org/${data[i].student.name}?set=set3"/></div>${data[i].student.name}</div></td>
+                <td>${data[i].student.dept}</td>
+                <td><div id="${data[i].student.id}" class="control_icon delete dlt_r_std"><i class="fi fi-sr-trash"></i></div></td>
+                </tr>
+                `
+              }
+
+
+            //add student to the round
+            $('#add_round_students').click(function(){
+              let round = $(this)[0].classList
+              round = round[round.length-1]
+              round = round.split('-')
+              round = parseInt(round[1]);
+              $('.modal-wrapper').show();
+              $('#modal_body').html(`
+              <div class="modal-body">
+              <div class="modal-title">Add Students</div>
+              <div class="modal-form">
+              
+              <form id="createGame">
+              <div class="form-text bold mg-t-20">Select Students</div>
+                <div id="students" class="input-group"></div>
+              <button type="submit" id="roundStudentSubmit" class="btn green white-text mg-t-30">Save</button>
+              </form>
+              </div>
+                </div>
+              `)
+      
+
+              //students
+              fetch('/getStudents')
+              .then(res=>res.json())
+              .then(data=>{
+                  let students = document.getElementById('students');
+                for(i in data){
+                students.innerHTML+= `
+                  <input type="checkbox" id="std-${data[i].id}" name="std_name" value="${data[i].id}"/>
+                  <label for="std-${data[i].id}">${data[i].name}(${data[i].id})</label><br>
+                  `
+                }
+              })
+
+      
+              const createGame = document.getElementById('createGame');
+              $('#roundStudentSubmit').click(async(e)=>{
+                e.preventDefault();
+                const check = document.getElementsByName('std_name');
+                let data = [];
+                for(i in check){
+                  if(check[i].checked){
+                    data.push(
+                      {
+                        gameId: parseInt(params.id),
+                        studentId: parseInt(check[i].value),
+                        round: round,
+                        winRank: 0,
+                      },
+                      
+                      )
+                  }
+                }
+                try{
+                  const result = await fetch('/postGameStudents', {
+                      method: 'POST',
+                      headers: {
+                        'Content-Type': 'application/json'
+                      },
+                      body: JSON.stringify(data)
+                  });
+      
+                  console.log(result);
+                  $('.modal-wrapper').hide();
+             Swal.fire('Student Added!', '', 'success')
+                }
+                catch(err){
+                  console.log(err);
+             Swal.fire('Something went wrong!', '', 'success')
+                }
+      
+              });
+            });
+            
+            //delete a student from round
+            $('.dlt_r_std').click(async function(){
+              const id = $(this)[0].id;
+              try {
+                const result = await fetch(`/deleteRoundStudent/${params.id}/${id}/${round}`,{
+                  method: 'DELETE',
+                  headers: {
+                    'Content-type': 'application/json'
+                  }
+                })
+
+                console.log(result);
+             Swal.fire('Deleted a Student!', '', 'success')
+             window.location.reload();
+                
+              } catch (error) {
+             Swal.fire('Something went wrong!', '', 'error')
+                console.log(error);
+              }
+              
+
+            })
+
+
+          
+            });
+          })
+
+          $('.tab-item:first-child').click();
+
+
         }
     });
 
-      $('#create_event').click(()=>{
-         $('.modal-wrapper').show();
-         $('#modal_body').html(`
-         <div class="modal-body">
-         <div class="modal-title">Add Students</div>
-         <div class="modal-form">
-         
-         <form id="createGame">
-         <div class="form-text bold mg-t-20">Select Students</div>
-           <div id="students" class="input-group"></div>
-         <button type="submit" id="eventSubmit" class="btn green white-text mg-t-30">Save</button>
-         </form>
-         </div>
-         
-          </div>
-         `)
- 
+    //Result 
+    fetch(`/getResultData/${params.id}/${params.eventId}`)
+    .then(res=>res.json())
+    .then(data=> {
+     console.log(data);
 
-         //students
-         fetch('/getStudents')
-         .then(res=>res.json())
-         .then(data=>{
-            let students = document.getElementById('students');
-           for(i in data){
-           students.innerHTML+= `
-            <input type="checkbox" id="std-${data[i].id}" name="std_name" value="${data[i].id}"/>
-            <label for="std-${data[i].id}">${data[i].name}(${data[i].id})</label><br>
-            `
-           }
-         })
+     (data.ResultState == 0) ? $('#view_result').hide() : $('#view_result').show();
+     (data.ResultState == 1) ? $('#generate_result').hide() : $('#generate_result').show();
 
-         
- 
- 
-         const createGame = document.getElementById('createGame');
-         $('#eventSubmit').click(async(e)=>{
-          e.preventDefault();
-           const check = document.getElementsByName('std_name');
-           let data = [];
-           for(i in check){
-            if(check[i].checked){
-              data.push(
-                {
-                  gameId: parseInt(params.id),
-                  studentId: parseInt(check[i].value)
-                },
-                
-                )
-            }
-           }
+   });
 
-
-           try{
-             const result = await fetch('/postGameStudents', {
-                method: 'POST',
-                headers: {
-                   'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-             });
+      //view results
+      $('#view_result').click(function(){
+        //getAllRounds
+     fetch(`/getGameRounds/${params.id}`)
+     .then(res=>res.json())
+     .then(data=> {
+      console.log(data);
+      let id = new Set();
+      let rounds = new Set();
+      for(let i=0; i<data.length; i++){
+        id.add(data[i].student.id);
+        rounds.add(data[i].round);
+      }
  
-             console.log(result);
+      let resultArr = [];
+       id = Array.from(id);
+       rounds = Array.from(rounds);
  
+  
+ 
+ 
+      for(let i=0; i<id.length; i++){
+        let sum = 0;
+        let name = '';
+ 
+          for(j=0; j<data.length; j++){
+            // console.log(id[i], data[j].student.id);
+             if(id[i] == data[j].student.id){
+              sum += data[j].winRank;
+              name = data[j].student.name;
+             }
            }
-           catch(err){
-             console.log(err);
-           }
- 
+        
+         resultArr.push({
+          id: id[i],
+          name: name,
+          sum: sum
          });
+      }
  
+      resultArr.sort((a, b) => {
+       return a.sum - b.sum;
+      })
+ 
+      round_tab_body.innerHTML = `
+               <div id="c_g_std" class="text-3xl mg-t-20">Result</div>
+               <div class="flex-end">
+               </div>
+               <div class="table-wrapper">
+               <table class="fl-table">
+                   <thead>
+                   <tr>
+                   <th>Rank</th>
+                       <th>#ID</th>
+                       <th>Name</th>
+                   </tr>
+                   </thead>
+                   <tbody id="gameStudents">
+          
+                   </tbody>
+              </table>
+               `
+               const gameStdTable = document.getElementById('gameStudents');
+               for(i=0; i<resultArr.length; i++){
+                 gameStdTable.innerHTML += `
+                 <tr>
+                 <td class="flex align-center gap-10 bold">${i+1} <span id="${data[i].student.id}-${data[i].attendence} - ${params.id} - ${data[i].round}-${data.length}"  class="winRank"><i class="fi fi-sr-star"></i></span></td>
+                 <td>${resultArr[i].id}</td>
+                 <td><div class="flex align-center gap-10 bold"> <div class="circle-avatar-small"><img src="https://robohash.org/${resultArr[i].name}?set=set3"/></div>${resultArr[i].name}</div></td>
+                 </tr>
+                 `
+               }
+ 
+    });
+     });
+
+    //create a round
+    $('#add_round').click(function(){
+      let round = $(this)[0].classList
+       $('.modal-wrapper').show();
+       $('#modal_body').html(`
+       <div class="modal-body">
+       <div class="modal-title">Creating Round ${roundCount + 1}</div>
+       <div class="modal-form">
        
+       <form id="createGame">
+       <div class="form-text bold mg-t-20">Select Students</div>
+         <div id="students" class="input-group"></div>
+       <button type="submit" id="roundSubmit" class="btn green white-text mg-t-30">Save</button>
+       </form>
+       </div>
+        </div>
+       `)
+
+
+       //students
+       fetch('/getStudents')
+       .then(res=>res.json())
+       .then(data=>{
+          let students = document.getElementById('students');
+         for(i in data){
+         students.innerHTML+= `
+          <input type="checkbox" id="std-${data[i].id}" name="std_name" value="${data[i].id}"/>
+          <label for="std-${data[i].id}">${data[i].name}(${data[i].id})</label><br>
+          `
+         }
+       })
+
+
+       const createGame = document.getElementById('createGame');
+       $('#roundSubmit').click(async(e)=>{
+        e.preventDefault();
+         const check = document.getElementsByName('std_name');
+         let data = [];
+         for(i in check){
+          if(check[i].checked){
+            data.push(
+              {
+                gameId: parseInt(params.id),
+                studentId: parseInt(check[i].value),
+                round: roundCount,
+                winRank: 0,
+              },
+              
+              )
+          }
+         }
+         try{
+           const result = await fetch('/postGameStudents', {
+              method: 'POST',
+              headers: {
+                 'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(data)
+           });
+
+           console.log(result);
+           $('.modal-wrapper').hide();
+           Swal.fire('Round Added!', '', 'success')
+         }
+         catch(err){
+           console.log(err);
+             Swal.fire('Something went wrong!', '', 'error')
+         }
+
+       });
+    });
+    
+
+
  
- 
-      });
+    
+
  
       $('.modal-close').click(()=>{
          $('.modal-wrapper').hide();
       });
       // create game modal end
-
-
-
     },
+
+  
+
 }).resolve();
 
 

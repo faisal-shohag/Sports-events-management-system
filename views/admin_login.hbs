@@ -41,8 +41,21 @@
 </div>
 </div>
 </div>
-
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
+    const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 3000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener('mouseenter', Swal.stopTimer)
+    toast.addEventListener('mouseleave', Swal.resumeTimer)
+  }
+})
+
+
       const login = document.querySelector('form');
       const usernameError = document.querySelector('.username.error')
       const passwordError = document.querySelector('.password.error')
@@ -70,7 +83,14 @@
           }
 
           if(result.user){
-              location.assign('/admin');
+            Toast.fire({
+            icon: 'success',
+            title: 'Signed in successfully'
+            })
+            setTimeout(()=>{
+                 location.assign('/admin');
+            }, 3000)
+             
           }
     }
     catch(err)

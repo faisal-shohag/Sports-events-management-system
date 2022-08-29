@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native"]
 }
 
 datasource db {
@@ -39,19 +40,6 @@ model AssignedPeople {
   @@index([teacherId], map: "AssignedPeople_teacherId_fkey")
 }
 
-model Attendence {
-  id          Int      @id @default(autoincrement())
-  studentId   Int
-  gameId      Int
-  presentDate DateTime
-  present     Boolean
-  game        Games    @relation(fields: [gameId], references: [id], onDelete: Cascade)
-  student     Students @relation(fields: [studentId], references: [id], onDelete: Cascade)
-
-  @@index([gameId], map: "Attendence_gameId_fkey")
-  @@index([studentId], map: "Attendence_studentId_fkey")
-}
-
 model Events {
   id             Int              @id @default(autoincrement())
   title          String           @unique @db.VarChar(255)
@@ -67,40 +55,38 @@ model Games {
   id             Int              @id @default(autoincrement())
   title          String           @db.VarChar(255)
   eventId        Int
+  teacherUid     String?          @db.VarChar(100)
   isResultGen    Boolean
-  teacherId      Int
   created_at     DateTime?        @default(now()) @db.DateTime(0)
   event          Events           @relation(fields: [eventId], references: [id], onDelete: Cascade)
-  teacher        Teachers         @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  Teachers       Teachers?        @relation(fields: [teacherUid], references: [uuid], onDelete: Cascade, map: "Games_ibfk_1")
   AssignedPeople AssignedPeople[]
-  Attendence     Attendence[]
   GameStudents   GameStudents[]
-  Results        Results[]
 
   @@index([eventId], map: "Games_eventId_fkey")
-  @@index([teacherId], map: "Games_teacherId_fkey")
+  @@index([teacherUid], map: "Games_ibfk_1")
 }
 
 model GameStudents {
-  gameId    Int
-  studentId Int
-  game      Games    @relation(fields: [gameId], references: [id], onDelete: Cascade, map: "GameStudents_ibfk_1")
-  student   Students @relation(fields: [studentId], references: [id], onDelete: Cascade, map: "GameStudents_ibfk_2")
+  gameId     Int
+  studentId  Int
+  round      Int
+  winRank    Int
+  attendence Int?     @default(0)
+  game       Games    @relation(fields: [gameId], references: [id], onDelete: Cascade, map: "GameStudents_ibfk_1")
+  student    Students @relation(fields: [studentId], references: [id], onDelete: Cascade, map: "GameStudents_ibfk_2")
 
-  @@id([gameId, studentId])
+  @@id([gameId, studentId, round])
   @@index([gameId], map: "gameId")
   @@index([studentId], map: "studentId")
 }
 
 model Results {
-  id        Int      @id @default(autoincrement())
-  gameId    Int
-  studentId Int
-  game      Games    @relation(fields: [gameId], references: [id], onDelete: Cascade)
-  student   Students @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  gameId      Int
+  eventId     Int
+  ResultState Int? @default(0)
 
-  @@index([gameId], map: "Results_gameId_fkey")
-  @@index([studentId], map: "Results_studentId_fkey")
+  @@id([gameId, eventId])
 }
 
 model Students {
@@ -111,9 +97,7 @@ model Students {
   email          String           @unique
   age            Int
   AssignedPeople AssignedPeople[]
-  Attendence     Attendence[]
   GameStudents   GameStudents[]
-  Results        Results[]
 }
 
 model TeacherNotifications {
@@ -121,24 +105,22 @@ model TeacherNotifications {
   text       String
   created_at DateTime @default(now())
   seen       Boolean?
+  teacherId  Int
+  Teachers   Teachers @relation(fields: [teacherId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "TeacherNotifications_ibfk_1")
+
+  @@index([teacherId], map: "teacherId")
 }
 
 model Teachers {
-  id             Int              @id @default(autoincrement())
-  username       String           @unique @db.VarChar(100)
-  uuid           String           @unique @default(uuid()) @db.VarChar(50)
-  created_at     DateTime         @default(now())
-  password       String
-  email          String           @unique
-  dept           String
-  name           String
-  AssignedPeople AssignedPeople[]
-  Games          Games[]
-}
-
-model User {
-  id       Int    @id @default(autoincrement())
-  username String @unique @db.VarChar(255)
-  uuid     String
-  password String
+  id                   Int                    @id @default(autoincrement())
+  username             String                 @unique @db.VarChar(100)
+  uuid                 String                 @unique @default(uuid()) @db.VarChar(50)
+  created_at           DateTime               @default(now())
+  password             String
+  email                String                 @unique
+  dept                 String
+  name                 String
+  AssignedPeople       AssignedPeople[]
+  Games                Games[]
+  TeacherNotifications TeacherNotifications[]
 }

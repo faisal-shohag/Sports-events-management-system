@@ -3,7 +3,7 @@
 @import url('https://cdn-uicons.flaticon.com/uicons-bold-rounded/css/uicons-bold-rounded.css');
 @import url('https://cdn-uicons.flaticon.com/uicons-bold-straight/css/uicons-bold-straight.css');
 @import url('https://cdn-uicons.flaticon.com/uicons-solid-straight/css/uicons-solid-straight.css');
-
+@import url('https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css');
 html {
   box-sizing: border-box;
 }
@@ -122,6 +122,10 @@ button{
 .green{
   background: #30a05b;
 }
+
+.crimson{
+  background: crimson;
+}
 /* text */
 .white-text{
   color: white;
@@ -144,7 +148,7 @@ button{
 }
 
 .error{
-  color: crimson;
+  color: #dc143c;
   font-size: 14px;
 }
 
@@ -979,4 +983,96 @@ display: -webkit-box;
 
 .view{
   margin-top: 20px;
+}
+
+/* tabs */
+.tabs{
+  background: rgb(236, 250, 228);
+}
+
+.tab-item{
+  cursor: pointer;
+  padding: 5px;
+}
+
+.tab-active{
+  background: #30a05b4d;
+  padding: 5px;
+  border-bottom: 3px solid #30a05b;
+}
+
+.control_icon{
+  font-size: 24px;
+  text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+
+.delete{
+  color: tomato;
+}
+
+/* .circle-avatar-small{
+
+} */
+
+
+.circle-avatar-small img{
+  height: 50px;
+}
+
+
+
+.rank-click{
+   background: #00684a;
+   text-align: center;
+   font-size: 17px;
+   color: #fff;
+   margin: 10px 10px;
+   padding: 5px 5px;
+   border-radius: 5px;
+   cursor: pointer;
+}
+
+.rank-click:hover{
+  background-color: orangered;
+}
+
+
+.card{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  background: rgba(245, 244, 242, 0.774);
+  min-width: 300px;
+}
+
+.card-title{
+  font-size: 25px;
+}
+
+.btns{
+  font-size: 20px;
+  background: #00684a;
+}
+
+.feature{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  gap: 50px
+}
+
+.big{
+  font-size: 40px;
+  font-weight: bold;
+  position: absolute;
+  top: 20%;
+  text-align: center;
+  width: 100%;
 }

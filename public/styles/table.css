@@ -107,3 +107,26 @@
         text-align: center;
     }
 }
+
+
+
+.shuffle{
+    color: #30a05b;
+    cursor: pointer;
+
+}
+
+.shuffle:hover{
+    color: tomato;
+}
+
+.winRank{
+    color: #d1b538;
+    cursor: pointer;
+
+}
+
+.winRank:hover{
+    color: tomato;
+
+}

@@ -2,8 +2,9 @@ const express = require('express');
 const auth = require('./authentication/auth');
 const getData = require('./apis/getData');
 const postData = require('./apis/postData');
+const deleteData = require('./apis/deleteData');
 const cookieParser = require('cookie-parser');
-const {reqAdminAuth, reqTeacherAuth} = require('./middlewares/auth_middleware');
+const {reqAdminAuth, reqTeacherAuth, checkTeacher} = require('./middlewares/auth_middleware');
 const hbs = require('hbs');
 const app = express();
 
@@ -20,8 +21,10 @@ hbs.registerPartials(__dirname + '/views/partials');
 
 
 //routes
+
+// app.get('*', checkTeacher);
 app.get('/', (req, res) => {
-    res.send('Hello')
+    res.render('home');
 })
 
 app.get('/student_reg', (req, res) => {
@@ -50,7 +53,7 @@ app.get('/teacher_login', (req, res) =>{
     res.render('teacher_login');
 })
 
-app.get('/teacher', reqTeacherAuth, (req, res) => {
+app.get('/teacher', checkTeacher, reqTeacherAuth,  (req, res) => {
   res.render('teacher')
 })
 
@@ -59,6 +62,7 @@ app.get('/teacher', reqTeacherAuth, (req, res) => {
 app.use(auth);
 app.use(getData);
 app.use(postData);
+app.use(deleteData);
 
 
 
