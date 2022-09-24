@@ -58,6 +58,9 @@ app.get('/teacher', checkTeacher, reqTeacherAuth,  (req, res) => {
 })
 
 
+app.get('/login', (req, res) =>{
+    res.render('login');
+})
 
 app.use(auth);
 app.use(getData);

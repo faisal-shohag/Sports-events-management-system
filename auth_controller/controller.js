@@ -43,6 +43,17 @@ module.exports.admin_login = async (req, res) => {
     }
 }
 
+module.exports.admin_logout = async (req, res) => {
+    try{
+        res.cookie('jwt_admin', '', {maxAge: 1,});
+        res.redirect('/');
+    }
+    catch(err){
+     const errors = handleError(err);
+     res.status(400).json({errors});
+    }
+}
+
 
 //teacher signup controller
 module.exports.teacher_signup = async (req, res) => {
@@ -79,6 +90,18 @@ module.exports.teacher_login = async (req, res) => {
         const token = createToken(teacher.uuid);
         res.cookie('jwt_teacher', token, {httpOnly: true, maxAge: maxAge * 1000});
         res.status(200).json(teacher);
+    }
+    catch(err){
+        const errors = handleError(err);
+        res.status(400).json({errors});
+    }
+}
+
+module.exports.teacher_logout = async (req, res) => {
+    const {uuid} = req.body;
+    try{
+        res.cookie('jwt_teacher', '', {maxAge: 1});
+        res.redirect('/');
     }
     catch(err){
         const errors = handleError(err);

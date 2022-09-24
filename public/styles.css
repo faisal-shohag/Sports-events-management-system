@@ -20,6 +20,7 @@ body{
   font-family: 'Euclid Circular A', sans-serif;
   padding: 0;
   margin: 0;
+  background: #161616;
 }
 
 .hr{
@@ -117,6 +118,10 @@ button{
 .indigo{
   background: rgb(133, 51, 190);
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.common{
+  background: #541766;
 }
 
 .green{
@@ -260,6 +265,11 @@ small{
   align-items: center;
   position: relative;
   max-width: 750px;
+
+  background: #4568DC;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #B06AB3, #4568DC);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #B06AB3, #4568DC); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
  
 }
 
@@ -273,6 +283,7 @@ form{
   border-bottom-left-radius: 10px;
   max-height: 500px;
   max-width: 350px;
+  
 }
 
 
@@ -296,10 +307,10 @@ form{
   font-family: inherit;
   width: 100%;
   border: 0;
-  border-bottom: 2px solid #d6d4d4;
+  border-bottom: 2px solid #161616;
   outline: 0;
   font-size: 1rem;
-  color: rgb(20, 20, 20);
+  color: rgb(47, 177, 209);
   padding: 7px 0;
   background: transparent;
   transition: border-color 0.2s;
@@ -365,9 +376,10 @@ select {
   text-align: center;
   border-radius: 0;
   padding: 10px;
-  background: #e7e6e6;
+  background: #161515;
   /* margin-left: 1px; */
   margin-top: 5px;
+  color: #fff;
 }
 input[type="radio"] + label:first-of-type {
   border-top-left-radius: 3px;
@@ -386,7 +398,7 @@ input:checked + label:before,
 select:focus,
 select:active {
   background-color: #30a05b;
-  color: #fff;
+  color: rgb(47, 87, 15);
   border-color: #11998e;
 }
 
@@ -486,7 +498,7 @@ a{
   width: 100%;
   padding: 0px 16px;
   box-sizing: border-box;
-  background-color: white;
+  background-color: rgb(59, 56, 56);
   font-size: 13px;
   line-height: 15px;
   color: rgb(28, 45, 56);
@@ -496,7 +508,7 @@ a{
 }
 
 .nav{
-  background-color: rgb(255, 255, 255);
+  /* background-color: rgb(197, 18, 18); */
   position: fixed;
   z-index: 12;
   top: 0px;
@@ -510,7 +522,7 @@ a{
   position: relative;
   z-index: 0;
   font-family: "Euclid Circular A", Akzidenz, "Helvetica Neue", Helvetica, Arial, sans-serif;
-  background-color: rgb(255, 255, 255);
+  background-color: rgb(32, 30, 30);
   box-shadow: unset;
 }
 
@@ -525,13 +537,16 @@ a{
   width: 100%;
   padding: 0px 16px;
   box-sizing: border-box;
-  background-color: white;
+  background: #EB5757;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to left, #000000, #EB5757);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to left, #000000, #EB5757); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
   font-size: 13px;
   line-height: 15px;
-  color: rgb(28, 45, 56);
+  color: rgb(240, 243, 243);
   z-index: 1;
   height: 60px;
-  border-bottom: 1px solid rgb(232, 237, 235);
+  border-bottom: 1px solid rgb(20, 20, 20);
 }
 
 .nav-top-1{
@@ -545,13 +560,18 @@ a{
   width: 100%;
   padding: 0px 16px;
   box-sizing: border-box;
-  background-color: white;
+  background: #c0392b;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #8e44ad, #c0392b);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #8e44ad, #c0392b); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
   font-size: 13px;
   line-height: 15px;
-  color: rgb(28, 45, 56);
+  color: rgb(235, 236, 236);
   height: 45px;
   box-shadow: rgb(0 30 43 / 10%) 0px 4px 4px 0px;
   z-index: 0;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
 }
 
 
@@ -574,14 +594,13 @@ a{
 
 .nav-title{
   font-size: 22px;
-  /* font-weight: bold; */
-  font-family: Font Value;
+  font-weight: bold;
 }
 
 
 
 .nav-icon{
-  color: #6b6b6b;
+  color: #e9e0e0;
   gap: 20px;
   font-size: 15px;
 }
@@ -597,11 +616,12 @@ a{
   width: 100%;
   margin: 24px 0px 0px;
   padding: 15px 0px;
-  border-top: 1px solid rgb(232, 237, 235);
-  background-color: rgb(255, 255, 255);
+  border-top: 1px solid rgb(235, 166, 139);
+  /* background-color: rgb(255, 255, 255); */
   color: rgb(136, 147, 151);
   font-size: 12px;
   line-height: 1.5;
+  padding: 20px;
 }
 
 
@@ -620,7 +640,7 @@ a{
   height: 100vh;
   min-width: 767px;
   margin: 0px;
-  background-color: rgb(255, 255, 255);
+  background-color: rgb(160, 150, 150);
 
 }
 
@@ -663,13 +683,13 @@ a{
 }
 
 .section-header-title-text {
-  color: #00684a;
-  font-family: 'Font Value';
+  color: #141414;
   font-size: 32px;
-  font-weight: 400;
+  font-weight: bold;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+
 }
 
 .side-nav-container{
@@ -694,7 +714,7 @@ a{
 .side-nav{
   position: relative;
   font-family: "Euclid Circular A", Akzidenz, "Helvetica Neue", Helvetica, Arial, sans-serif;
-  background-color: rgb(249, 251, 250);
+  background: #20002c;  /* fallback for old browsers */
   z-index: 0;
   width: 184px;
   transition: box-shadow 200ms ease-in-out 0s, border-color, width;
@@ -722,7 +742,7 @@ a{
   margin-top: 0px;
   margin-bottom: 0px;
   padding: 16px 16px 8px;
-  color: rgb(0, 104, 74);
+  color: rgb(196, 184, 184);
 }
 
 .side-nav-menu-head-head{
@@ -746,7 +766,7 @@ a{
 .menu-item-link{
   margin: 0px;
   appearance: none;
-  background: none rgba(249, 251, 250, 0);
+  background: none rgba(239, 241, 240, 0);
   border: none;
   cursor: pointer;
   position: relative;
@@ -762,7 +782,7 @@ a{
   text-align: left;
   text-decoration: none;
   text-transform: capitalize;
-  color: rgb(0, 30, 43);
+  color: rgb(237, 240, 241);
   transition: background-color 100ms ease-in-out 0s;
   font-size: 14px;
   line-height: 20px;
@@ -770,11 +790,11 @@ a{
 
 .menu-item-active{
   position: relative;
-  background: #2c975552;
+  background: #5f107cdc;
 }
 
 .menu-item-active a{
-  color: rgb(0, 104, 74) !important;
+  color: rgb(240, 245, 244) !important;
   font-weight: bold;
 }
 
@@ -786,7 +806,7 @@ a{
    content: '';
    height: 100%;
    width: 5px;
-   background: rgb(6, 133, 97);
+   background: rgb(152, 17, 156);
    position: absolute;
    left: 0;
    top: 0;
@@ -921,15 +941,21 @@ select option:first-child{
   box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
   border-radius: 5px;
   cursor: pointer;
+  background: rgb(94, 21, 128);
+  min-height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .event_title{
 
   position: relative;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: bold;
   padding: 3px;
-  color: #222;
+  color: rgb(231, 225, 225);
   overflow: hidden;
 text-overflow: ellipsis;
 display: -webkit-box;
@@ -939,8 +965,35 @@ display: -webkit-box;
   
 }
 
+#c_g_std{
+  color: #222;
+}
+
+#round_tab_body{
+  color: #222;
+}
 .event_time{
-  font-size: 10px;
+  font-size: 13px;
+  color: rgb(34, 33, 33);
+}
+
+.badge-common{
+  font-family: "Euclid Circular A", "‘Helvetica Neue’", Helvetica, Arial, sans-serif;
+  display: inline-flex;
+  -webkit-box-align: center;
+  align-items: center;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 16px;
+  border-radius: 5px;
+  min-height: 18px;
+  padding-left: 6px;
+  padding-right: 6px;
+  text-transform: uppercase;
+  border: 0px solid rgb(192, 250, 230);
+  letter-spacing: 1px;
+  background-color: rgb(27, 29, 29);
+  color: rgb(226, 235, 232);
 }
 
 .badge-green{
@@ -956,10 +1009,10 @@ display: -webkit-box;
   padding-left: 6px;
   padding-right: 6px;
   text-transform: uppercase;
-  border: 1px solid rgb(192, 250, 230);
+  border: 0px solid rgb(192, 250, 230);
   letter-spacing: 1px;
-  background-color: rgb(227, 252, 247);
-  color: rgb(0, 104, 74);
+  background-color: rgb(27, 29, 29);
+  color: rgb(226, 235, 232);
 }
 
 .badge-blue{
@@ -975,10 +1028,10 @@ display: -webkit-box;
   padding-left: 6px;
   padding-right: 6px;
   text-transform: uppercase;
-  border: 1px solid rgb(195, 231, 254);
+  border: 0px solid rgb(195, 231, 254);
   letter-spacing: 1px;
-  background-color: rgb(225, 247, 255);
-  color: rgb(18, 84, 183);
+  background-color: rgb(26, 28, 29);
+  color: rgb(223, 227, 233);
 }
 
 .view{
@@ -987,7 +1040,7 @@ display: -webkit-box;
 
 /* tabs */
 .tabs{
-  background: rgb(236, 250, 228);
+  background: rgb(121, 57, 105);
 }
 
 .tab-item{
@@ -996,9 +1049,9 @@ display: -webkit-box;
 }
 
 .tab-active{
-  background: #30a05b4d;
+  background: #a0309a4d;
   padding: 5px;
-  border-bottom: 3px solid #30a05b;
+  border-bottom: 3px solid #4c1352;
 }
 
 .control_icon{
@@ -1057,7 +1110,7 @@ display: -webkit-box;
 
 .btns{
   font-size: 20px;
-  background: #00684a;
+  background: #690e69;
 }
 
 .feature{
@@ -1075,4 +1128,61 @@ display: -webkit-box;
   top: 20%;
   text-align: center;
   width: 100%;
+}
+
+.nothing{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  font-size: 30px;
+  font-weight: bold;
+  margin-top: 50px;
+}
+
+.loginBig{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  color: #eee;
+  font-size: 25px;
+}
+
+.req{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #6c158b;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  position: relative;
+}
+
+.req img{
+  height: 50px;
+}
+
+.accept-btn{
+  padding: 5px;
+  background: #00684a;
+  width: 100px;
+  text-align: center;
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+.req .time{
+  font-weight: bold;
+  padding: 5px;
+  font-size: 15px;
+}
+
+.req .text{
+  padding-bottom: 10px;
+  font-size: 18px;
 }

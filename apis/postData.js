@@ -3,7 +3,7 @@ const {Router} = require('express')
 const router = Router();
 const prisma = new PrismaClient();
 const set = require('date-fns/set')
-const mail = require('../nodemailer/mail')
+const {mail, rejectMail, acceptMail} = require('../nodemailer/mail')
 
 router.post('/postEvent', async (req, res)=>{
     const data = req.body;
@@ -30,11 +30,8 @@ router.post('/postStudent', async (req, res)=>{
     console.log(data);
     try{
         const event = await prisma.students.create({
-                 data:{
-                    ...data, 
-                    id: parseInt(data.id),
-                    age: parseInt(data.age)
-                }
+                 data: data
+                
         })
         console.log(event);
         // mail(data.email, 'student_signup', data.name);
@@ -148,4 +145,45 @@ router.post('/postResultState', async (req, res) => {
     }
 })
 
+router.post('/postGameRequest', async (req, res) => {
+    const data = req.body;
+    try {
+        const result = await prisma.gameRequests.create({
+            data: data
+        })
+        res.status(200).json({success: true});
+    }
+
+    catch(err){
+        console.log(err);
+        res.status(400).json({err: true});
+    }
+});
+
+router.post('/updateGameRequest', async (req, res) => {
+    const data = req.body;
+    try {
+        const result = await prisma.gameRequests.update({
+            where: {
+                gameId_uuid_studentId: {
+                    gameId: data.gameId,
+                    uuid: data.uuid,
+                    studentId: data.studentId
+                }
+            },
+            data: {
+                state: data.data
+            }
+        })
+        res.status(200).json({success: true});
+        if(data.data == 2){
+            rejectMail(data.email, data.name, data.title);
+        }
+    }
+
+    catch(err){
+        console.log(err);
+        res.status(400).json({err: true});
+    }
+})
 module.exports = router;

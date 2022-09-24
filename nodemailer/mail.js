@@ -10,7 +10,7 @@ const text = {
     Faisal, Imran, Ezaz
     `,
     "teacher_signup": "",
-    "teacher_assign": ""
+    "teacher_assign": "",
 }
 
 const mail = (to, as, name) =>{
@@ -36,5 +36,51 @@ const mail = (to, as, name) =>{
         })
 } 
 
+const rejectMail = (to, name, gameTitle) =>{
 
-module.exports = mail;
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'cse1805027brur@gmail.com',
+            pass:   'sravpjbdxkihkjtz'
+        }
+    }).use('compile', htmlToText())
+
+    const mailOptions = {
+        from: 'cse1805027brur@gmail.com',
+        to: 'faisalshohagprog@gmail.com',
+        subject: 'About Join Request',
+        html: `<b>Hey, ${name}!</b>, <br> Your request to join <b>${gameTitle}</b> has been rejected!<br><br>Form, <br>Sports Events Management System<br>Team: Faisal, Ezaz, Imran`
+    }
+
+    transporter.sendMail(mailOptions, (err, info)=>{
+        if(err) console.log(err)
+        else console.log('Email sent:' + info.response)
+    })
+}
+
+const acceptMail = (to,name, gameTitle) =>{
+
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'cse1805027brur@gmail.com',
+            pass:   'sravpjbdxkihkjtz'
+        }
+    }).use('compile', htmlToText())
+
+    const mailOptions = {
+        from: 'cse1805027brur@gmail.com',
+        to: 'faisalshohagprog@gmail.com',
+        subject: 'About Join Request',
+        html: `<b>Hey, ${name}!</b>, <br> Congratulations! Your request to join ${gameTitle} has been accepted!`
+    }
+
+    transporter.sendMail(mailOptions, (err, info)=>{
+        if(err) console.log(err)
+        else console.log('Email sent:' + info.response)
+    })
+} 
+
+
+module.exports = {mail, rejectMail, acceptMail};

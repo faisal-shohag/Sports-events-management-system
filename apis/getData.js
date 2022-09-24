@@ -93,7 +93,7 @@ router.get('/getGameStudents/:id/:round', async(req, res) => {
         const game = await prisma.gameStudents.findMany({
             where: {gameId: parseInt(req.params.id), round: parseInt(req.params.round)},
             include: {
-                student: true
+                Students: true
             }
         });
 
@@ -109,7 +109,7 @@ router.get('/getGameRounds/:id', async(req, res) => {
         const game = await prisma.gameStudents.findMany({
             where: {gameId: parseInt(req.params.id)},
             include: {
-                student: true
+                Students: true
             }
         });
 
@@ -158,7 +158,7 @@ router.get('/getTeacherEvents/:uid', async (req, res) => {
         res.status(200).json(teacherEvents);
     } catch (error) {
         console.log(error);
-        res.status(400).json({"err": 'error'})
+        res.status(400).json({"err": error})
     }
  })
 
@@ -178,10 +178,92 @@ router.get('/getTeacherEvents/:uid', async (req, res) => {
         res.status(200).json(Results);
     } catch (error) {
         console.log(error);
-        res.status(400).json({"err": 'error'})
+        res.status(400).json({"err": error})
     }
  })
 
+ router.get('/generatedResult', async (req, res) => {
+    try {
+        const Results = await prisma.results.findMany({
+            where: {
+                ResultState: 1
+            },
+            include: {
+                GameStudents: {
+                    include: {
+                        Students: true,
+                        game: true, 
+                    }
+                }
+            }
+
+        })
+        res.status(200).json(Results);
+    //    console.log(Results)
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({"err": error})
+    }
+ })
+
+ router.get('/get-available-games', async (req, res) => {
+    try {
+        const Results = await prisma.results.findMany({
+            where: {
+                ResultState: 0
+            },
+            include: {
+                GameStudents: {
+                    include: {
+                        game: true, 
+                    }
+                }
+            }
+
+        })
+        res.status(200).json(Results);
+    //    console.log(Results)
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({"err": error})
+    }
+ });
+
+ router.get('/getRequests/:id/:stdId', async (req, res) => {
+    try {
+        const Results = await prisma.gameRequests.findMany({
+            where: {
+                gameId: parseInt(req.params.id),
+                studentId: parseInt(req.params.stdId)
+            },
+        })
+        res.status(200).json(Results);
+    //    console.log(Results)
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({"err": error})
+    }
+ })
+
+ router.get('/getRequestByTeacher/:uid', async (req, res) => {
+    try {
+        const Results = await prisma.gameRequests.findMany({
+            where: {
+                uuid: req.params.uid,
+                state: 0
+            },
+            include: {
+                Games: true,
+                Students: true
+            }
+        })
+        res.status(200).json(Results);
+    //    console.log(Results)
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({"err": error})
+    }
+ })
 
 
 module.exports = router;

@@ -16,7 +16,7 @@
     min-height: 500px;
     min-width: 500px;
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-    background: #fff;
+    background: rgb(8, 8, 8);
     z-index: 9999;
     border-radius: 5px;
     position: relative;

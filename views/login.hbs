@@ -3,7 +3,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login</title>
+    <title>Student Login</title>
     <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
@@ -17,13 +17,13 @@
 
 <div class="form pos-rel">
     <form>
-        <div class="text-3xl mg-b-30 font-value">Admin Login</div>
+        <div class="text-3xl mg-b-30 font-value">Student Login</div>
   <div>
   <div class="form__group field">
-  <input type="input" class="form__field" placeholder="Username" name="username" id='username' required />
-  <label for="username" class="form__label">Username</label>
+  <input type="number" class="form__field" placeholder="id" name="id" id='id' required />
+  <label for="id" class="form__label">ID</label>
 </div>
-    <div class="username error"></div>
+    <div class="id error"></div>
 
 
     <div class="form__group field">
@@ -36,8 +36,11 @@
 <div class="form-footer">
  *By clicking Log in you are automatically accepting the cookie. Login will saved for 2 days.
 </div>
-    
+   
 </form>
+<center>Not Registered?</center>
+<a href="/student_reg"><button class="btn indigo white-text w-full mg-t-20 text-1xl">Registration</button></a>
+ 
 </div>
 </div>
 </div>
@@ -57,48 +60,55 @@
 
 
       const login = document.querySelector('form');
-      const usernameError = document.querySelector('.username.error')
+      const idError = document.querySelector('.id.error')
       const passwordError = document.querySelector('.password.error')
 
       login.addEventListener('submit', async (e) => {
           e.preventDefault();
-          usernameError.textContent = '';
+          idError.textContent = '';
           passwordError.textContent = '';
-          const username = login.username.value;
+          const id = parseInt(login.id.value);
           const password = login.password.value;
         
-    try{
-          const res = await fetch('/admin_login', {
-              method: 'POST',
-              headers: {
-                  'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({username, password})
-          })
+        console.log(id)
+        console.log(password);
 
-          const result = await res.json();
-          if(result.errors){
-              usernameError.textContent = result.errors.username;
-              passwordError.textContent = result.errors.password;
-          }
+         fetch('/getStudents')
+      .then(res=>res.json())
+      .then(data=>{
+        let found = false;
+        for(let i=0; i<data.length; i++){
+            if(data[i].id===id && data[i].password===password){
+            found = true;
+            localStorage.setItem('name', data[i].name);
+            localStorage.setItem('id', data[i].id);
+            break;
+            }
+        }
 
-          if(result.user){
+        if(found){
             Toast.fire({
             icon: 'success',
-            title: 'Signed in successfully'
+            title: 'Logged in successfully'
             });
-            setTimeout(()=>{
-                 location.assign('/admin');
-            }, 3000)
-             
-          }
-    }
-    catch(err)
-    {
-        console.log(err);
-    }
+            
+            
 
-      })
+            setTimeout(()=>{
+                 location.assign('/');
+            }, 3000);
+        }else{
+           Swal.fire({
+            icon: 'error',
+            text: 'Id or Password is wrong'
+           })
+        }
+
+      });
+
+      });
+
+     
   </script>
 
 </body>

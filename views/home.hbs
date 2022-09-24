@@ -4,74 +4,81 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
+      <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+  />
     <link rel="stylesheet" href="styles/table.css">
+    <link rel="stylesheet" href="styles/home.css">
 </head>
 <body>
-    <div class="sports-layout">
-    {{>header}}
+  
+  <div class="top-links">
+    <a href="/teacher"><div class="home-link">Teacher</div></a>
+    <a href="/admin"><div class="home-link">Admin</div></a>
+    <a href="/login"><div class="home-link">Student</div></a>
+  </div>
 
-   
+   <div class="top">
+
+    <center>
+       <div class="home-title animate__animated animate__fadeInUp">
+        Sports Management System
+        <div class="sub-title">Manage Sports Easily</div>
+       </div>
+<div class="headlines">
+  
+</div>
+    </center>
 
 
+   </div>
 
-
-    <div class="sports-body green">
-      <div class="big">
-            Welcome to Sports Management Event
-        </div>
-      <div class="feature">
-
-        
-          <div class="card">
-           <div class="card-title">
-                Teacher
-            </div>
-            <a href="/teacher">
-            <div class="btn btns">Login</div>
-            </a>
-        </div>
-
-         <div class="card">
-            <div class="card-title">
-                Admin
-            </div>
-            <a href="/admin">
-            <div class="btn btns">Login</div>
-            </a>
-        </div>
-
-        <div class="card">
-            <div class="card-title">
-                Students
-            </div>
-            <a href="/student_reg">
-            <div class="btn btns">Registration</div>
-            </a>
-        </div>
-
+   <div class="body-main">
+<div>
+   <div class="sec animate__animated animate__fadeInUp">
+    <div class="sec-title">Running Events</div>
+     
+     <div id="running_events" class="sec-body">
 
       </div>
-        
-         {{> modal}}
+   
+   </div>
 
-        {{>footer}}
+   <div class="sec animate__animated animate__fadeInUp">
+  <div class="sec-title">Games you can participate</div>
+    <div id="available-games" class="sec-body">
+
+      </div>
     </div>
+
+
+<div class="sec animate__animated animate__fadeInUp">
+<div class="sec-title">Recent Standings</div>
     </div>
 
+<div id="rank_tables" class="home-flex-center  animate__animated animate__fadeInUp">
+</div>
 
 
-<script>
-    document.querySelector('.nav-top-1').innerHTML =`
-    <div class="flex justify-center align-center bold gap-10">
-        <img src="images/home.png"> Home <i class="fi fi-br-menu-dots-vertical"></i></div> 
-    <div class="nav-icon flex justify-center align-center mg-r-20">
-        <div data-text="Notification" class="tooltip"><i class="fi fi-ss-bell"></i> <span style="transform: translate(-55%);">notification</span></div>
-        <div data-text="Log out" class="tooltip"><i class="fi fi-br-sign-out-alt"></i> <span style="transform: translate(-55%);">logout</span></div>
-    </div>`;
-</script>
+</div>
+</div>
+
+
+<div class="std_log"></div>
+
+
+<div class="home-img bottom-left-img animate__animated animate__fadeIn">
+  <img src="./images/home-img.png">
+</div>
+
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/navigo/7.1.3/navigo.min.js" integrity="sha512-T5Jaw8KOeloIRJz6TfFWDNqeTwMnLTXf2amscWwmNmIPmrAjPdl47fupdu7TrX3eSVuS1NElEfw0h2+0SsNxaQ==" crossorigin="anonymous"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="/scripts/home.js"></script>
+
+
 </body>
 </html>

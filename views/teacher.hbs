@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Teacher</title>
     <link rel="stylesheet" href="styles/table.css">
+    <link rel="stylesheet" href="styles/home.css">
 </head>
 <body>
     <div class="sports-layout">
@@ -26,7 +27,7 @@
                     </div>
 
                     <div class="menu-item results">
-                        <a href="#!/results" class="menu-item-link">Results</a>
+                        <a href="#!/results" class="menu-item-link">Standings</a>
                     </div>
                 </div>
 
@@ -38,6 +39,11 @@
                 <div class="menu-items">
                     <div class="menu-item students">
                         <a href="#!/students" class="menu-item-link">Students/Players</a>
+                    </div>
+
+                     <div class="menu-items">
+                    <div class="menu-item request">
+                        <a href="#!/requests" class="menu-item-link">Requests</a>
                     </div>
 
 
@@ -52,6 +58,7 @@
      </div>
     </div>
 
+<div class="std_log"></div>
 
     <div class="sports-body">
        
@@ -71,9 +78,10 @@
         <img src="images/teacher.png"> Teacher <i class="fi fi-br-menu-dots-vertical"></i><div>{{teacher.name}}</div></div> 
     <div class="nav-icon flex justify-center align-center mg-r-20">
         <div data-text="Notification" class="tooltip"><i class="fi fi-ss-bell"></i> <span style="transform: translate(-55%);">notification</span></div>
-        <div data-text="Log out" class="tooltip"><i class="fi fi-br-sign-out-alt"></i> <span style="transform: translate(-55%);">logout</span></div>
+        <a href="/teacher_logout"><div data-text="Log out" class="tooltip"><i class="fi fi-br-sign-out-alt"></i> <span style="transform: translate(-55%);">logout</span></div></a>
     </div>`;
 </script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/navigo/7.1.3/navigo.min.js" integrity="sha512-T5Jaw8KOeloIRJz6TfFWDNqeTwMnLTXf2amscWwmNmIPmrAjPdl47fupdu7TrX3eSVuS1NElEfw0h2+0SsNxaQ==" crossorigin="anonymous"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
