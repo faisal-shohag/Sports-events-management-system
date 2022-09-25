@@ -5,7 +5,7 @@ generator client {
 
 datasource db {
   provider = "mysql"
-  url      = env("DATABASE_URL")
+  url      = "mysql://sql6522038:fgP1BW1vzl@sql6.freemysqlhosting.net:3306/sql6522038"
 }
 
 model Admin {
