@@ -1,9 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,400&display=swap');
-@import url('http://fonts.cdnfonts.com/css/euclid-circular-a');
 @import url('https://cdn-uicons.flaticon.com/uicons-bold-rounded/css/uicons-bold-rounded.css');
 @import url('https://cdn-uicons.flaticon.com/uicons-bold-straight/css/uicons-bold-straight.css');
 @import url('https://cdn-uicons.flaticon.com/uicons-solid-straight/css/uicons-solid-straight.css');
 @import url('https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,700;1,400&display=swap');
 html {
   box-sizing: border-box;
 }
@@ -11,13 +11,10 @@ html {
   box-sizing: inherit;
 }
 
-@font-face {
-  font-family: 'Font Value';
-  src: url('./fonts/MongoDBValueSerif-Regular.woff2') format('woff2');
-}
+
 
 body{
-  font-family: 'Euclid Circular A', sans-serif;
+  font-family: 'Poppins', sans-serif;
   padding: 0;
   margin: 0;
   background: #161616;
@@ -90,7 +87,7 @@ body{
 /* Buttons */
 
 button, input, textarea{
-  font-family: 'Euclid Circular A', sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 button{
@@ -186,11 +183,11 @@ small{
 
 /* fon-family */
 .font-euclid{
-  font-family: 'Euclid Circular A', sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 .font-value{
-  font-family: 'Font Value', sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 /* margins */
@@ -360,7 +357,7 @@ input:-internal-autofill-selected{
 
 .form-footer{
   font-size: 10px;
-  font-family: Font Value;
+  font-family: 'Poppins';
   margin-top: 20px;font-weight: bold;
 
 }
@@ -521,7 +518,7 @@ a{
 .nav-sec{
   position: relative;
   z-index: 0;
-  font-family: "Euclid Circular A", Akzidenz, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Poppins";
   background-color: rgb(32, 30, 30);
   box-shadow: unset;
 }
@@ -713,7 +710,7 @@ background: linear-gradient(to right, #8e44ad, #c0392b); /* W3C, IE 10+/ Edge, F
 
 .side-nav{
   position: relative;
-  font-family: "Euclid Circular A", Akzidenz, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Poppins", sans-serif;
   background: #20002c;  /* fallback for old browsers */
   z-index: 0;
   width: 184px;
@@ -777,7 +774,7 @@ background: linear-gradient(to right, #8e44ad, #c0392b); /* W3C, IE 10+/ Edge, F
   display: flex;
   -webkit-box-align: center;
   align-items: center;
-  font-family: "Euclid Circular A", Akzidenz, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: normal;
   text-align: left;
   text-decoration: none;
@@ -978,7 +975,7 @@ display: -webkit-box;
 }
 
 .badge-common{
-  font-family: "Euclid Circular A", "‘Helvetica Neue’", Helvetica, Arial, sans-serif;
+  font-family: "Poppins", sans-serif;
   display: inline-flex;
   -webkit-box-align: center;
   align-items: center;
@@ -997,7 +994,7 @@ display: -webkit-box;
 }
 
 .badge-green{
-  font-family: "Euclid Circular A", "‘Helvetica Neue’", Helvetica, Arial, sans-serif;
+  font-family: "Poppins",  sans-serif;
   display: inline-flex;
   -webkit-box-align: center;
   align-items: center;
@@ -1016,7 +1013,7 @@ display: -webkit-box;
 }
 
 .badge-blue{
-  font-family: "Euclid Circular A", "‘Helvetica Neue’", Helvetica, Arial, sans-serif;
+  font-family: "Poppins", sans-serif;
   display: inline-flex;
   -webkit-box-align: center;
   align-items: center;
@@ -1185,4 +1182,89 @@ display: -webkit-box;
 .req .text{
   padding-bottom: 10px;
   font-size: 18px;
+}
+
+.lds-roller {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-roller div {
+  animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  transform-origin: 40px 40px;
+}
+.lds-roller div:after {
+  content: " ";
+  display: block;
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #fff;
+  margin: -4px 0 0 -4px;
+}
+.lds-roller div:nth-child(1) {
+  animation-delay: -0.036s;
+}
+.lds-roller div:nth-child(1):after {
+  top: 63px;
+  left: 63px;
+}
+.lds-roller div:nth-child(2) {
+  animation-delay: -0.072s;
+}
+.lds-roller div:nth-child(2):after {
+  top: 68px;
+  left: 56px;
+}
+.lds-roller div:nth-child(3) {
+  animation-delay: -0.108s;
+}
+.lds-roller div:nth-child(3):after {
+  top: 71px;
+  left: 48px;
+}
+.lds-roller div:nth-child(4) {
+  animation-delay: -0.144s;
+}
+.lds-roller div:nth-child(4):after {
+  top: 72px;
+  left: 40px;
+}
+.lds-roller div:nth-child(5) {
+  animation-delay: -0.18s;
+}
+.lds-roller div:nth-child(5):after {
+  top: 71px;
+  left: 32px;
+}
+.lds-roller div:nth-child(6) {
+  animation-delay: -0.216s;
+}
+.lds-roller div:nth-child(6):after {
+  top: 68px;
+  left: 24px;
+}
+.lds-roller div:nth-child(7) {
+  animation-delay: -0.252s;
+}
+.lds-roller div:nth-child(7):after {
+  top: 63px;
+  left: 17px;
+}
+.lds-roller div:nth-child(8) {
+  animation-delay: -0.288s;
+}
+.lds-roller div:nth-child(8):after {
+  top: 56px;
+  left: 12px;
+}
+@keyframes lds-roller {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
